@@ -44,9 +44,9 @@ if args.chemin:
 	
 	f = open(os.path.join('/home/adminsys/fichier_aws.txt')).read().splitlines()
 
-	for fichier in f:
+	for nom_du_fichier in f:
 		s3_resource.Bucket(mon_bucket).\
-		upload_file(Filename = f'{fichier}',Key =os.path.basename(fichier)
+		upload_file(Filename = f'{nom_du_fichier}',Key =os.path.basename(nom_du_fichier)
 			    
 	fin = time.time()
 	
@@ -112,5 +112,5 @@ fin_traitement = time.time()
 			    
 # On écrit la date et l'heure d'exécution du script dans le fichier date_exécution
 f = open("date_execution.txt","a")
-f.write(f"{mon_fichier} restauré le :{datetime.now()} en {fin_traitement-début_traitement} secondes\n")
+f.write(f"{nom_du_fichier} restauré le :{datetime.now()} en {fin_traitement-début_traitement} secondes\n")
 f.close()
