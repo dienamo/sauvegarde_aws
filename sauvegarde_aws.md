@@ -39,38 +39,53 @@ début_traitement = time.time()
 #def_sauvegarde():-----------------------------------------------------------------------------------------------------------------------
 
 if args.chemin:
-	
-	début = time.time()
-	
+
 	f = open(os.path.join('/home/adminsys/fichier_aws.txt')).read().splitlines()
 
-	for nom_du_fichier in f:
-		s3_resource.Bucket(mon_bucket).\
-		upload_file(Filename = f'{nom_du_fichier}',Key =os.path.basename(nom_du_fichier)
-			    
+	for fichier in f:
+		if os.path.exists(fichier):
+			s3_resource.Bucket(mon_bucket).\
+			upload_file(Filename = f'{fichier}',Key =os.path.basename(fichier))
+			print("-----------------------------------------")
+			print("Sauvegarde multiple effectuée avec succès")
+			print("-----------------------------------------")
+
+		else:
+			print(f'fichier {os.path.basename(fichier)} introuvable dans {os.path.dirname(fichier)}')
+			f = open("Fichiers_en erreur.txt","a")
+			f.write(f'fichier {os.path.basename(fichier)} introuvable dans {os.path.dirname(fichier)}\n')
+			f.close()
+# Methode de chargement d'un fichier dans le bucket par son nom
+# On determine le moment de la fin de la sauvegarde
 	fin = time.time()
-	
+
 # On affiche un message indiquant la fin de la sauvegarde
-	print("-----------------------------------------")
-	print("Sauvegarde multiple effectuée avec succès")
-	print("-----------------------------------------")
 
 #On affiche un message indiquant le temps de la sauvegarde
-	print(f"Temps de chargement: {fin - début} secondes")
-	print("-----------------------------------------")
 else:
-	fichier = input("Quel fichier voulez vous sauvegarder? : ")
-	début = time.time()
-	s3_resource.Bucket(mon_bucket).upload_file(Filename = f'{path}{fichier}',Key = fichier)
-	fin = time.time()
-# On affiche un message indiquant la fin de la sauvegarde			
-	print("-------------------------------------------------------------------")		
-	print(f"Sauvegarde de {nom_du_fichier} effectuée avec succès dans {path}")
-	print("-------------------------------------------------------------------")
+	while True:
 
-#On affiche un message indiquant le temps de la sauvegarde
-	print(f"Temps de chargement: {fin - début} secondes")
-	print("-----------------------------------------")
+		fichier = input("Quel fichier voulez vous sauvegarder? ('q' pour quitter): ")
+
+		try:
+			assert fichier != 'q'
+
+		except AssertionError:
+
+			sys.exit()
+
+		chemin = input("Veuillez entrer le chemin du fichier à sauvegarder :")
+
+
+		if os.path.exists(fichier):
+			s3_resource.Bucket(mon_bucket).upload_file(Filename = f'{chemin}{fichier}',Key = fichier)
+			print("---------------------------------------")
+			print("Sauvegarde unique effectuée avec succès")
+			print("---------------------------------------")
+			break
+		else:
+			print(f'fichier {os.path.basename(fichier)} introuvable dans {chemin}')
+continue
 			  
 #def_restauration():-----------------------------------------------------------------------------------------------------------------------
 			   
