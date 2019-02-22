@@ -85,7 +85,7 @@ else:
 			break
 		else:
 			print(f'fichier {os.path.basename(fichier)} introuvable dans {chemin}')
-continue
+			continue
 			  
 #def_restauration():-----------------------------------------------------------------------------------------------------------------------
 			   
