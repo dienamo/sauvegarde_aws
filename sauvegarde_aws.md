@@ -38,110 +38,118 @@ début_traitement = time.time()
 
 #def_sauvegarde():-----------------------------------------------------------------------------------------------------------------------
 
-if args.chemin:
+def sauvegarde():
 
-	f = open(os.path.join('/home/adminsys/fichier_aws.txt')).read().splitlines()
+	if args.chemin:
 
-	for fichier in f:
-		if os.path.exists(fichier):
-			s3_resource.Bucket(mon_bucket).\
-			upload_file(Filename = f'{fichier}',Key =os.path.basename(fichier))
-			print("-----------------------------------------")
-			print("Sauvegarde multiple effectuée avec succès")
-			print("-----------------------------------------")
+		f = open(os.path.join('/home/adminsys/fichier_aws.txt')).read().splitlines()
 
-		else:
-			print(f'fichier {os.path.basename(fichier)} introuvable dans {os.path.dirname(fichier)}')
-			f = open("Fichiers_en erreur.txt","a")
-			f.write(f'fichier {os.path.basename(fichier)} introuvable dans {os.path.dirname(fichier)}\n')
-			f.close()
+		for fichier in f:
+			if os.path.exists(fichier):
+				s3_resource.Bucket(mon_bucket).\
+				upload_file(Filename = f'{fichier}',Key =os.path.basename(fichier))
+				print("-----------------------------------------")
+				print("Sauvegarde multiple effectuée avec succès")
+				print("-----------------------------------------")
+
+			else:
+				print(f'fichier {os.path.basename(fichier)} introuvable dans {os.path.dirname(fichier)}')
+				f = open("Fichiers_en erreur.txt","a")
+				f.write(f'fichier {os.path.basename(fichier)} introuvable dans {os.path.dirname(fichier)}: {datetime.now()}\n')
+				f.close()
 # Methode de chargement d'un fichier dans le bucket par son nom
 # On determine le moment de la fin de la sauvegarde
-	fin = time.time()
+		fin = time.time()
 
 # On affiche un message indiquant la fin de la sauvegarde
 
 #On affiche un message indiquant le temps de la sauvegarde
-else:
-	while True:
+	else:
+		while True:
 
-		fichier = input("Quel fichier voulez vous sauvegarder? ('q' pour quitter): ")
+			fichier = input("Quel fichier voulez vous sauvegarder? ('q' pour quitter): ")
 
-		try:
-			assert fichier != 'q'
+			try:
+				assert fichier != 'q'
 
-		except AssertionError:
+			except AssertionError:
 
-			sys.exit()
+				sys.exit()
 
 
-		if os.path.exists(f'{path}{fichier}'):
-			s3_resource.Bucket(mon_bucket).upload_file(Filename = f'{path}{fichier}',Key = fichier)
-			print("---------------------------------------")
-			print(f"Sauvegarde de {fichier} effectuée avec succès dans {mon_bucket}")
-			print("---------------------------------------")
-			break
-		else:
-			print(f'fichier {os.path.basename(fichier)} introuvable dans {path}')
-			continue
-			  
+			if os.path.exists(f'{path}{fichier}'):
+				s3_resource.Bucket(mon_bucket).upload_file(Filename = f'{path}{fichier}',Key = fichier)
+				print("---------------------------------------")
+				print(f"Sauvegarde de {fichier} effectuée avec succès dans {mon_bucket}")
+				print("---------------------------------------")
+				break
+			else:
+				print(f'fichier {os.path.basename(fichier)} introuvable dans {path}')
+				continue
+
 #def_restauration():-----------------------------------------------------------------------------------------------------------------------
 			   
-if args.chemin:
+def_restauration():
 
-	f = open(os.path.join('/home/adminsys/fichier_aws.txt')).read().splitlines()
+	if args.chemin:
 
-	for fichier in f:
+		f = open(os.path.join('/home/adminsys/fichier_aws.txt')).read().splitlines()
 
-		chemin = os.path.dirname(fichier)
-		nom_du_fichier = os.path.basename(fichier)
-		try:
-			s3.Object(mon_bucket,nom_du_fichier)\
-			.download_file(f'{chemin}/{nom_du_fichier}')
-		except botocore.exceptions.ClientError as e:
-			if e.response['Error']['Code'] == "404":
-				print(f"Fchier {nom_du_fichier} introuvable dans le bucket")
-				f = open ("fichiers_en_erreur.txt","a")
-				f.write(f'fichier {nom_du_fichier} non existant dans le bucket {mon_bucket}: {datetime.now()}\n')
-				f.close()
-		else:
-			print("Restauration multiple effectuée")
-else:
+		for fichier in f:
 
-	while True:
+			chemin = os.path.dirname(fichier)
+			nom_du_fichier = os.path.basename(fichier)
+			try:
+				s3.Object(mon_bucket,nom_du_fichier)\
+				.download_file(f'{chemin}/{nom_du_fichier}')
+			except botocore.exceptions.ClientError as e:
+				if e.response['Error']['Code'] == "404":
+					print(f"Fchier {nom_du_fichier} introuvable dans le bucket")
+					f = open ("fichiers_en_erreur.txt","a")
+					f.write(f'fichier {nom_du_fichier} non existant dans le bucket {mon_bucket}: {datetime.now()}\n')
+					f.close()
+			else:
+				print("Restauration multiple effectuée")
+	else:
 
-		nom_du_fichier = input("Quel fichier voulez vous restaurer? ('q' pour quitter): ")
+		while True:
 
-		try:
+			nom_du_fichier = input("Quel fichier voulez vous restaurer? ('q' pour quitter): ")
 
-			assert nom_du_fichier != 'q'
+			try:
 
-		except AssertionError:
+				assert nom_du_fichier != 'q'
 
-			sys.exit()
+			except AssertionError:
 
-		try:
+				sys.exit()
 
-			s3.Object(mon_bucket,nom_du_fichier).download_file(f'{path}{nom_du_fichier}')
-		except botocore.exceptions.ClientError as e:
-			if e.response['Error']['Code'] == "404":
-				print(f'Fichier {nom_du_fichier} non existant dans le bucket')
-				continue
-		else:
+			try:
+
+				s3.Object(mon_bucket,nom_du_fichier).download_file(f'{path}{nom_du_fichier}')
+			except botocore.exceptions.ClientError as e:
+				if e.response['Error']['Code'] == "404":
+					print(f'Fichier {nom_du_fichier} non existant dans le bucket')
+					continue
+			else:
 			break
 
 # On affiche un message indiquant la fin de la restauration
-		print("-------------------------------------------------------------------")
-		print(f"restauration de {nom_du_fichier} effectuée avec succès dans {path}")
-		print("-------------------------------------------------------------------")
+			print("-------------------------------------------------------------------")
+			print(f"restauration de {nom_du_fichier} effectuée avec succès dans {path}")
+			print("-------------------------------------------------------------------")
 
-fin = time.time()
+	fin = time.time()
 
 # On affiche le temps de téléchargement
-print(f"Temps de téléchargement: {fin-début} secondes")
-print("----------------------------------------------")
+	print(f"Temps de téléchargement: {fin-début} secondes")
+	print("----------------------------------------------")
 
 # On écrit la date et l'heure d'exécution du script dans le fichier date_exécution
-f = open("date_execution.txt","a")
-f.write(f"{nom_du_fichier} restauré le :{datetime.now()} en {fin-début} secondes\n")
-f.close()
+	f = open("date_execution.txt","a")
+	f.write(f"{nom_du_fichier} restauré le :{datetime.now()} en {fin-début} secondes\n")
+	f.close()
+
+if (__name__ == '__main__'):
+	sauvegarde()
+	restauration()
