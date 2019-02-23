@@ -103,7 +103,9 @@ if args.chemin:
 		except botocore.exceptions.ClientError as e:
 			if e.response['Error']['Code'] == "404":
 				print(f"Fchier {nom_du_fichier} introuvable dans le bucket")
-
+				f = open ("fichiers_en_erreur.txt","a")
+				f.write(f'fichier {nom_du_fichier} non existant dans le bucket {mon_bucket}: {datetime.now()}\n')
+				f.close()
 		else:
 			print("Restauration multiple effectuée")
 else:
