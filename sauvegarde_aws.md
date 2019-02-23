@@ -90,42 +90,58 @@ else:
 #def_restauration():-----------------------------------------------------------------------------------------------------------------------
 			   
 if args.chemin:
-	début = time.time()
+
 	f = open(os.path.join('/home/adminsys/fichier_aws.txt')).read().splitlines()
 
 	for fichier in f:
+
 		chemin = os.path.dirname(fichier)
 		nom_du_fichier = os.path.basename(fichier)
-		s3.Object(mon_bucket,nom_du_fichier)\
-		.download_file(f'{chemin}/{nom_du_fichier}')
-	fin = time.time()
-	print("restauration multiple effectuée avec succès")
-#On affiche un message indiquant le temps de la sauvegarde
-	print(f"Temps de chargement: {fin - début} secondes")
-	print("-----------------------------------------")
+		try:
+			s3.Object(mon_bucket,nom_du_fichier)\
+			.download_file(f'{chemin}/{nom_du_fichier}')
+		except botocore.exceptions.ClientError as e:
+			if e.response['Error']['Code'] == "404":
+				print(f"Fchier {nom_du_fichier} introuvable dans le bucket")
 
+		else:
+			print("Restauration multiple effectuée")
 else:
-	nom_du_fichier = input('Quel fichier voulez vous restaurer? :')
-	début = time.time()
-	try:
 
-		s3.Object(mon_bucket,nom_du_fichier).download_file(f'{path}{nom_du_fichier}')
-	except botocore.exceptions.ClientError as e:
-		if e.response['Error']['Code'] == "404":
-			print("Fichier non existant dans le bucket")
-			   
-	fin = time.time()
-# On affiche un message indiquant la fin de la restauration			
-	print("-------------------------------------------------------------------")		
-	print(f"restauration de {nom_du_fichier} effectuée avec succès dans {path}")
-	print("-------------------------------------------------------------------")
-#On affiche un message indiquant le temps de la sauvegarde
-	print(f"Temps de chargement: {fin - début} secondes")
-	print("-----------------------------------------")
-			    
-fin_traitement = time.time()
-			    
+	while True:
+
+		nom_du_fichier = input("Quel fichier voulez vous restaurer? ('q' pour quitter): ")
+
+		try:
+
+			assert nom_du_fichier != 'q'
+
+		except AssertionError:
+
+			sys.exit()
+
+		try:
+
+			s3.Object(mon_bucket,nom_du_fichier).download_file(f'{path}{nom_du_fichier}')
+		except botocore.exceptions.ClientError as e:
+			if e.response['Error']['Code'] == "404":
+				print(f'Fichier {nom_du_fichier} non existant dans le bucket')
+				continue
+		else:
+			break
+
+# On affiche un message indiquant la fin de la restauration
+		print("-------------------------------------------------------------------")
+		print(f"restauration de {nom_du_fichier} effectuée avec succès dans {path}")
+		print("-------------------------------------------------------------------")
+
+fin = time.time()
+
+# On affiche le temps de téléchargement
+print(f"Temps de téléchargement: {fin-début} secondes")
+print("----------------------------------------------")
+
 # On écrit la date et l'heure d'exécution du script dans le fichier date_exécution
 f = open("date_execution.txt","a")
-f.write(f"{nom_du_fichier} restauré le :{datetime.now()} en {fin_traitement-début_traitement} secondes\n")
+f.write(f"{nom_du_fichier} restauré le :{datetime.now()} en {fin-début} secondes\n")
 f.close()
