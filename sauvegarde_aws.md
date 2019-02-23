@@ -74,17 +74,15 @@ else:
 
 			sys.exit()
 
-		chemin = input("Veuillez entrer le chemin du fichier à sauvegarder :")
 
-
-		if os.path.exists(fichier):
-			s3_resource.Bucket(mon_bucket).upload_file(Filename = f'{chemin}{fichier}',Key = fichier)
+		if os.path.exists(f'{path}{fichier}'):
+			s3_resource.Bucket(mon_bucket).upload_file(Filename = f'{path}{fichier}',Key = fichier)
 			print("---------------------------------------")
-			print("Sauvegarde unique effectuée avec succès")
+			print(f"Sauvegarde de {fichier} effectuée avec succès dans {mon_bucket}")
 			print("---------------------------------------")
 			break
 		else:
-			print(f'fichier {os.path.basename(fichier)} introuvable dans {chemin}')
+			print(f'fichier {os.path.basename(fichier)} introuvable dans {path}')
 			continue
 			  
 #def_restauration():-----------------------------------------------------------------------------------------------------------------------
