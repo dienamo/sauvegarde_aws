@@ -29,6 +29,7 @@ parser.add_argument("-b","--bucket",help="nom du bucket")
 parser.add_argument("-c","--path",help="chemin de location restauration")
 parser.add_argument("-s","--sauvegarde",action="store_true",help="appel du module de sauvegarde")
 parser.add_argument("-r","--restauration",action="store_true",help="appel du module de restauration")
+parser.add_argument("-a","--affichage",action="store_true",help="affichage du contenu du bucket")
 
 # On déclare la variable args qui représente la methode parse_args utilisée par Argumentparser
 args = parser.parse_args()
@@ -137,7 +138,7 @@ elif args.restauration:
 					print(f"Fchier {nom_du_fichier} non existant dans le bucket")					f = open ("fichiers_en_erreur.txt","a")
 
 					# Création d'un fichier de log afin d'enregistrer les erreurs
-					f = open ("fichiers en erreur.txt","a")
+					f = open("fichiers en erreur.txt","a")
 					f.write(f'fichier {nom_du_fichier} non existant dans le bucket {mon_bucket}: {datetime.now()}\n')
 					f.close()
 			else:
@@ -187,6 +188,23 @@ elif args.restauration:
 	print("----------------------------------------------")
 	print(f"Temps de téléchargement: {fin-début} secondes")
 	print("----------------------------------------------")
+
+#affichage()-------------------------------------------------------------------------------------
+elif args.affichage:
+
+	while True:
+		contenu = input(f"Voulez vous afficher le contenu du bucket {mon_bucket}? (o ou n) :")
+		try:
+			assert contenu == 'o' or contenu == 'n'
+		except AssertionError:
+			print("Veuillez entrer o ou n : ")
+			continue
+		if contenu == 'o'
+			for key in conn.list_objects(Bucket = mon_bucket)['Contents']:
+				print(key['Key']
+
+		else:
+			sys.exit()
 
 
 # On demande à l'utilisateur de choisir une option si celui ci n'entre aucun paramètre
