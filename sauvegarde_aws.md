@@ -214,7 +214,7 @@ elif args.affichage:
 # On demande à l'utilisateur de choisir une option si celui ci n'entre aucun paramètre
 else:
 
-	print("-------------------------------------------------------------------")
-	print("-- Veuillez entrer une option -s(sauvegarde) ou -r(restauration) --")
-	print("-------------------------------------------------------------------")
+	print("----------------------------------------------------------------------------------")
+	print("-- Veuillez entrer une option -s(sauvegarde) , -r(restauration) , -a(affichage) --")
+	print("----------------------------------------------------------------------------------")
 
