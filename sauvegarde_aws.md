@@ -41,6 +41,8 @@ path = args.path
 
 s3 = boto3.resource('s3')
 
+conn = boto3.client('s3')
+
 # sauvegarde():-----------------------------------------------------------------------------------------------------------------------
 if args.sauvegarde:
 
@@ -59,10 +61,6 @@ if args.sauvegarde:
 				s3.Bucket(mon_bucket).\
 				upload_file(Filename = f'{fichier}',Key =os.path.basename(fichier))
 
-				# On affiche un message indiquant la fin de la sauvegarde
-				print("-----------------------------------------------")
-				print("** Sauvegarde multiple effectuée avec succès **")
-				print("-----------------------------------------------")
 
 			else:
 
@@ -73,8 +71,11 @@ if args.sauvegarde:
 				f = open("Fichiers_en erreur.txt","a")
 				f.write(f'fichier {os.path.basename(fichier)} introuvable dans {os.path.dirname(fichier)}: {datetime.now()}\n')
 				f.close()
-		# On determine le moment de la fin de la sauvegarde
-		fin = time.time()
+
+			# On affiche un message indiquant la fin de la sauvegarde
+		print("-----------------------------------------------")
+		print("** Sauvegarde multiple effectuée avec succès **")
+		print("-----------------------------------------------")
 
 	else:
 		while True:
@@ -139,12 +140,12 @@ elif args.restauration:
 					f=open("fichiers en erreur.txt","a")
 					f.write(f'fichier {nom_du_fichier} non existant dans le bucket {mon_bucket}: {datetime.now()}\n')
 					f.close()
-			else:
+
 
 				# On affiche un message indiquant la fin de la sauvegarde
-				print("----------------------------------------------")
-				print("** Restauration multiple effectuée avec succès **")
-				print("----------------------------------------------")
+		print("----------------------------------------------")
+		print("** Restauration multiple effectuée avec succès **")
+		print("----------------------------------------------")
 	else:
 
 		# Création d'une boucle while en cas d'erreur ou demande de sortie d programme
@@ -172,12 +173,12 @@ elif args.restauration:
 					print(f'Fichier {fichier} non existant dans le bucket')
 					continue
 			else:
-				break
 
 	# On affiche un message indiquant la fin de la restauration
-	print("-------------------------------------------------------------------")
-	print(f"** Restauration de {fichier} effectuée avec succès dans {path} **")
-	print("-------------------------------------------------------------------")
+				print("-------------------------------------------------------------------")
+				print(f"** Restauration de {fichier} effectuée avec succès dans {path} **")
+				print("-------------------------------------------------------------------")
+				break
 
 	# On determine la fin de la restauration
 	fin = time.time()
@@ -186,13 +187,14 @@ elif args.restauration:
 	print("----------------------------------------------")
 	print(f"Temps de téléchargement: {fin-début} secondes")
 	print("----------------------------------------------")
-	
-# affichage()-----------------------------------------------------------------------------------------------------------------	
+
+# affichage()-------------------------------------------------------------------------------------
 elif args.affichage:
+
 
 	while True:
 
-		contenu = input(f'Voulez vous afficher le contenu du bucket {mon_bucket}? (o ou n) : ')
+		contenu = input(f'Voulez vous afficher le contenu du bucket \"{mon_bucket}\" ? (o ou n) : ')
 
 		try :
 
@@ -207,9 +209,12 @@ elif args.affichage:
 				print(key['Key'])
 			break
 		else:
-	break
+			break
 
 # On demande à l'utilisateur de choisir une option si celui ci n'entre aucun paramètre
 else:
+
+	print("-------------------------------------------------------------------")
 	print("-- Veuillez entrer une option -s(sauvegarde) ou -r(restauration) --")
+	print("-------------------------------------------------------------------")
 
