@@ -24,6 +24,12 @@ et indiquer le service que nous voulons utiliser,afin d'accéder à notre bucket
 
 on peut ensuite interagir avec notre bucket en y sauvegardant des fichiers s3_resource.Bucket(mon_bucket).upload_file(Filename="/chemin/nom_du_fichier,key=nom_du_fichier).
 
+afin de lever une exception botocore.exceptions.ClientError qui est une exception du module botocore créée en cas de non présence du fichier dans notre bucket
+
+méthode de téléchargement d'un fichier avec les méthodes s3.Objects().download_files()
+
+afin de restaurer un fichier en local à partir de notre bucket sur s3
+
 création d'un bloc try
 
 afin de lever une exception botocore.exceptions.ClientError qui est une exception du module botocore créée en cas de non présence du fichier dans notre bucket
