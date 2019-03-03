@@ -24,6 +24,16 @@ et indiquer le service que nous voulons utiliser,afin d'accéder à notre bucket
 
 on peut ensuite interagir avec notre bucket en y sauvegardant des fichiers s3_resource.Bucket(mon_bucket).upload_file(Filename="/chemin/nom_du_fichier,key=nom_du_fichier).
 
+création d'un bloc try
+
+afin de lever une exception botocore.exceptions.ClientError qui est une exception du module botocore créée en cas de non présence du fichier dans notre bucket
+
+    méthode de téléchargement d'un fichier avec les méthodes s3.Objects().download_files()
+
+la restauration se fait en téléchargeant un objet à partir de s3 comme ceci:
+
+s3.objects(bucket,fichier.download_file(chemin,fichier)).download_file
+
 afin de lister le contenu du bcket utiliser la methode conn.list_object for fichiers in conn.list_objects(Bucket=mon_bucket)['Contents']
 
 paramètrer le crontab afin de planifier une sauvegarde automatique
