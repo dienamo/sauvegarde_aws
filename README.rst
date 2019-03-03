@@ -1,4 +1,4 @@
-script de sauvegarde
+script de sauvegarde/restauration AWS
 
 script de sauvegarde de données sur Amazon S3 grâce à la librairie BOTO3
 installation
@@ -6,6 +6,7 @@ installation
 L'installation de la dernière version de BOTO3 se fait avec PIP:
 
 pip install boto3
+
 configuration
 
 avant de pouvoir utiliser ce module il faut d'abord parametrer son systeme avec les informations d'authentification afin de pouvoir connecter son compte AWS avec la commande : "aws configure". cette commande vous nous permettre de renseigner les clés d'accès a notre compte AWS ainsi que les paramètres régionaux.
