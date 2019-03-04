@@ -24,7 +24,8 @@ parser = ArgumentParser()
 
 # On ajoute les informations relatives à l'appel de l'analyseur de paramètres (commande d'appel,
 # type etc..)
-parser.add_argument("-f",action = "store_true",dest="chemin",help="chemin de location restauration")
+parser.add_argument("-f",action = "store_false",dest="chemin",help="chemin de location restauration")
+parser.add_argument("-f","--fichier",help="fichier par defaut")
 parser.add_argument("-b","--bucket",help="nom du bucket")
 parser.add_argument("-c","--path",help="chemin de location restauration")
 parser.add_argument("-s","--sauvegarde",action="store_true",help="appel du module de sauvegarde")
