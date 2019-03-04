@@ -78,7 +78,7 @@ if args.sauvegarde:
 		print("-----------------------------------------------")
 		print("** Sauvegarde multiple effectuée avec succès **")
 		print("-----------------------------------------------")
-
+	#On cré une boucle while afin de demander à l'utilisateur d'enter un nom de fichier ou quitter le programme
 	else:
 		while True:
 
@@ -196,10 +196,9 @@ elif args.restauration:
 
 # affichage()-------------------------------------------------------------------------------------
 elif args.affichage:
-
-
+	#On cré une boucle while afin de confirmé le nom du bucket auquel nous voulons affichier le contenu
 	while True:
-
+		#Capture de la reponse de l'utilisateur combiné d'un bloc try afin de s'assurer de la réponse
 		contenu = input(f'Voulez vous afficher le contenu du bucket \"{mon_bucket}\" ? (o ou n) : ')
 
 		try :
@@ -209,7 +208,7 @@ elif args.affichage:
 		except AssertionError:
 			print("Veuillez entrer o ou n : ")
 			continue
-
+		#Méthode d'affichage du bucket si la reponse est "o"
 		if contenu == 'o':
 			for key in conn.list_objects(Bucket = mon_bucket)['Contents']:
 				print(key['Key'])
