@@ -2,3 +2,5 @@ fichier guide-linux.pdf introuvable dans /home/adminsys/mes_fichiers: 2019-03-01
 fichier fichier_test.txt introuvable dans /home/adminsys: 2019-03-01 15:38:22.149588
 fichier guide-linux.pdf sauvegardé dans monprojet6 2019-03-01 15:43:19.216834
 fichier fichier_test.txt sauvegardé dans monprojet6 2019-03-01 15:43:19.497042
+fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-04 15:51:45.552848
+fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-04 15:51:45.875848

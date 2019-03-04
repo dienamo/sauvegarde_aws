@@ -43,17 +43,17 @@ s3 = boto3.resource('s3')
 
 conn = boto3.client('s3')
 
+fichier_defaut = open(os.path.join('/home/adminsys/fichier_aws.txt')).read().splitlines()
+
 # sauvegarde():-----------------------------------------------------------------------------------------------------------------------
 if args.sauvegarde:
 
 	# On determine le moment du début de l'execution de la sauvegarde
 	début = time.time()
 	if args.chemin:
-
-		f = open(os.path.join('/home/adminsys/fichier_aws.txt')).read().splitlines()
-
+		fichier_defaut
 		# Création d'un boucle for afin de créer una variable por chaque fichiers de la liste
-		for fichier in f:
+		for fichier in fichier_defaut:
 
 			# Methode de chargement dans le bucket combiné de conditions afin de véerifier la présence des fichiers en local 
 			if os.path.exists(fichier):
