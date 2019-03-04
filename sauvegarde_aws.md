@@ -61,15 +61,17 @@ if args.sauvegarde:
 				s3.Bucket(mon_bucket).\
 				upload_file(Filename = f'{fichier}',Key =os.path.basename(fichier))
 
-
+				f = open("logs_sauvegarde.txt","a")
+				f.write(f"fichier '{os.path.basename(fichier)}' sauvegardé dans {mon_bucket} {datetime.now()}\n")
+				f.close()
 			else:
 
 				# On affiche un message indiquant le fichier en erreur
-				print(f'fichier {os.path.basename(fichier)} introuvable dans {os.path.dirname(fichier)}')
+				print(f"fichier '{os.path.basename(fichier)}' introuvable dans {os.path.dirname(fichier)}")
 
 				# Création d'un fichier de log afin d'enregistrer les erreurs
-				f = open("Fichiers_en erreur.txt","a")
-				f.write(f'fichier {os.path.basename(fichier)} introuvable dans {os.path.dirname(fichier)}: {datetime.now()}\n')
+				f = open("logs_sauvegarde.txt","a")
+				f.write(f"fichier '{os.path.basename(fichier)}' introuvable dans {os.path.dirname(fichier)}: {datetime.now()}\n")
 				f.close()
 
 			# On affiche un message indiquant la fin de la sauvegarde
@@ -96,14 +98,14 @@ if args.sauvegarde:
 
 				# On affiche un message indiquant la fin de la sauvegarde
 				print("---------------------------------------------------------------")
-				print(f"** Sauvegarde de {fichier} effectuée avec succès dans {mon_bucket} **")
+				print(f"** Sauvegarde de '{fichier}' effectuée avec succès dans {mon_bucket} **")
 				print("---------------------------------------------------------------")
 				break
 
 			else:
 
 				# On affiche un message indiquant le fichier en erreur
-				print(f'fichier {os.path.basename(fichier)} introuvable dans {path}')
+				print(f"fichier '{os.path.basename(fichier)}' introuvable dans {path}")
 				continue
 	fin = time.time()
 
@@ -131,14 +133,18 @@ elif args.restauration:
 			try:
 				s3.Object(mon_bucket,nom_du_fichier)\
 				.download_file(f'{chemin}/{nom_du_fichier}')
+
+				f=open("logs_restauration.txt","a")
+				f.write(f"fichier '{nom_du_fichier}' restauré dans {chemin} {datetime.now()}\n")
+				f.close()
 			except botocore.exceptions.ClientError as e:
 				if e.response['Error']['Code'] == "404":
 
 					# On affiche un message indiquant le fichier en erreur
-
+					print("fichier {nom_du_fichier} non existant dans le bucket {mon_bucket}")
 					# Création d'un fichier de log afin d'enregistrer les erreurs
-					f=open("fichiers en erreur.txt","a")
-					f.write(f'fichier {nom_du_fichier} non existant dans le bucket {mon_bucket}: {datetime.now()}\n')
+					f=open("logs_restauration.txt","a")
+					f.write(f"fichier '{nom_du_fichier}' non existant dans le bucket {mon_bucket}: {datetime.now()}\n")
 					f.close()
 
 
@@ -176,7 +182,7 @@ elif args.restauration:
 
 	# On affiche un message indiquant la fin de la restauration
 				print("-------------------------------------------------------------------")
-				print(f"** Restauration de {fichier} effectuée avec succès dans {path} **")
+				print(f"** Restauration de '{fichier}' effectuée avec succès dans {path} **")
 				print("-------------------------------------------------------------------")
 				break
 

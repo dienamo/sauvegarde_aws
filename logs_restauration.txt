@@ -1,0 +1,2 @@
+fichier guide-linux.pdf restauré dans /home/adminsys/mes_fichiers 2019-03-01 15:51:47.996142
+fichier fichier_test.txt restauré dans /home/adminsys 2019-03-01 15:51:48.313826
