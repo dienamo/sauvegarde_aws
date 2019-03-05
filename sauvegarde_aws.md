@@ -24,8 +24,7 @@ parser = ArgumentParser()
 
 # On ajoute les informations relatives à l'appel de l'analyseur de paramètres (commande d'appel,
 # type etc..)
-parser.add_argument("-f",action = "store_false",dest="chemin",help="chemin de location restauration")
-parser.add_argument("-f","--fichier",help="fichier par defaut")
+parser.add_argument("-f",'--chemin',action="store",default='/home/adminsys/fichier_aws.txt')
 parser.add_argument("-b","--bucket",help="nom du bucket")
 parser.add_argument("-c","--path",help="chemin de location restauration")
 parser.add_argument("-s","--sauvegarde",action="store_true",help="appel du module de sauvegarde")
@@ -44,7 +43,7 @@ s3 = boto3.resource('s3')
 
 conn = boto3.client('s3')
 
-fichier_defaut = open(os.path.join('/home/adminsys/fichier_aws.txt')).read().splitlines()
+fichier_defaut = args.chemin
 
 # sauvegarde():-----------------------------------------------------------------------------------------------------------------------
 if args.sauvegarde:
@@ -52,9 +51,11 @@ if args.sauvegarde:
 	# On determine le moment du début de l'execution de la sauvegarde
 	début = time.time()
 	if args.chemin:
-		fichier_defaut
+
+		f = open(os.path.join(f'{fichier_defaut}')).read().splitlines()
+
 		# Création d'un boucle for afin de créer una variable por chaque fichiers de la liste
-		for fichier in fichier_defaut:
+		for fichier in f:
 
 			# Methode de chargement dans le bucket combiné de conditions afin de véerifier la présence des fichiers en local 
 			if os.path.exists(fichier):
