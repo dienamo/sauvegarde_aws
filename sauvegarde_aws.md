@@ -24,7 +24,8 @@ parser = ArgumentParser()
 
 # On ajoute les informations relatives à l'appel de l'analyseur de paramètres (commande d'appel,
 # type etc..)
-parser.add_argument("-f",'--chemin',action="store",default='/home/adminsys/fichier_aws.txt')
+# On ajoute la valeur par defaut dans argparse qui represente le chemin du fichier au cas ou le paramatre -f n'est pas renseigné
+parser.add_argument("-f","--chemin",action="store",default='/home/adminsys/fichier_aws.txt')
 parser.add_argument("-b","--bucket",help="nom du bucket")
 parser.add_argument("-c","--path",help="chemin de location restauration")
 parser.add_argument("-s","--sauvegarde",action="store_true",help="appel du module de sauvegarde")
@@ -43,16 +44,26 @@ s3 = boto3.resource('s3')
 
 conn = boto3.client('s3')
 
-fichier_defaut = args.chemin
+fichier_liste = args.chemin
 
+# On affecte la variable erreur afin de l'incrémenter dans la boucle "for"
+erreur = 0
+
+erreur = int(erreur)
 # sauvegarde():-----------------------------------------------------------------------------------------------------------------------
 if args.sauvegarde:
 
 	# On determine le moment du début de l'execution de la sauvegarde
 	début = time.time()
-	if args.chemin:
 
-		f = open(os.path.join(f'{fichier_defaut}')).read().splitlines()
+	if args.chemin:
+		# On verifie l'existance du fichier contenant la liste des fichiers
+		try:
+			assert os.path.exists(f'{fichier_liste}')
+		except AssertionError:
+			print('fichier contenant la liste introuvable')
+			sys.exit(1)
+		f = open(os.path.join(f'{fichier_liste}')).read().splitlines()
 
 		# Création d'un boucle for afin de créer una variable por chaque fichiers de la liste
 		for fichier in f:
@@ -63,23 +74,34 @@ if args.sauvegarde:
 				s3.Bucket(mon_bucket).\
 				upload_file(Filename = f'{fichier}',Key =os.path.basename(fichier))
 
+				# On inscrit la sauvegarde dans un fichier de log
 				f = open("logs_sauvegarde.txt","a")
 				f.write(f"fichier '{os.path.basename(fichier)}' sauvegardé dans {mon_bucket} {datetime.now()}\n")
 				f.close()
-			else:
 
-				# On affiche un message indiquant le fichier en erreur
-				print(f"fichier '{os.path.basename(fichier)}' introuvable dans {os.path.dirname(fichier)}")
+			else:
+				# On incremente les erreurs dans la variable erreur
+				erreur += 1
+
 
 				# Création d'un fichier de log afin d'enregistrer les erreurs
 				f = open("logs_sauvegarde.txt","a")
 				f.write(f"fichier '{os.path.basename(fichier)}' introuvable dans {os.path.dirname(fichier)}: {datetime.now()}\n")
 				f.close()
 
-			# On affiche un message indiquant la fin de la sauvegarde
-		print("-----------------------------------------------")
-		print("** Sauvegarde multiple effectuée avec succès **")
-		print("-----------------------------------------------")
+		# On affiche un message indiquant la fin de la sauvegarde et le code erreur
+
+		if erreur >=1:
+			print("----------------------------------")
+			print("** erreur lors de la sauvegarde **")
+			print("----------------------------------")
+			sys.exit(1)
+		else:
+			print("---------------------------")
+			print("** Tout s'est bien passé **")
+			print("---------------------------")
+			sys.exit(0)
+
 	#On cré une boucle while afin de demander à l'utilisateur d'enter un nom de fichier ou quitter le programme
 	else:
 		while True:
@@ -92,7 +114,7 @@ if args.sauvegarde:
 
 			except AssertionError:
 
-				sys.exit()
+				sys.exit(0)
 
 			# Methode de chargement dans le bucket combiné de conditions afin de véerifier la présence des fichiers en local 
 			if os.path.exists(f'{path}{fichier}'):
@@ -113,9 +135,9 @@ if args.sauvegarde:
 
 	#On affiche un message indiquant le temps de la sauvegarde
 	print("----------------------------------------------")
-	print(f"Temps de téléchargement: {fin-début} secondes")
+	print(f"Temps de chargement: {fin-début} secondes")
 	print("----------------------------------------------")
-
+	sys.exit(0)
 # restauration():-----------------------------------------------------------------------------------------------------------------------
 elif args.restauration:
 
@@ -123,7 +145,12 @@ elif args.restauration:
 
 	if args.chemin:
 
-		f = open(os.path.join('/home/adminsys/fichier_aws.txt')).read().splitlines()
+		try:
+			assert os.path.exists(fichier_liste)
+		except AssertionError:
+			print('fichier contenant la liste introuvable')
+			sys.exit(1)
+		f = open(os.path.join(f'{fichier_liste}')).read().splitlines()
 
 		# Création d'un boucle for afin de créer una variable por chaque fichiers de la liste
 		for fichier in f:
@@ -143,17 +170,23 @@ elif args.restauration:
 				if e.response['Error']['Code'] == "404":
 
 					# On affiche un message indiquant le fichier en erreur
-					print("fichier {nom_du_fichier} non existant dans le bucket {mon_bucket}")
+					erreur += 1
 					# Création d'un fichier de log afin d'enregistrer les erreurs
 					f=open("logs_restauration.txt","a")
 					f.write(f"fichier '{nom_du_fichier}' non existant dans le bucket {mon_bucket}: {datetime.now()}\n")
 					f.close()
+		if erreur >= 1:
+			print("----------------------------------")
+			print("** erreur lors de la sauvegarde **")
+			print("----------------------------------")
+			sys.exit(1)
+		else:
 
-
-				# On affiche un message indiquant la fin de la sauvegarde
-		print("----------------------------------------------")
-		print("** Restauration multiple effectuée avec succès **")
-		print("----------------------------------------------")
+		# On affiche un message indiquant la fin de la restauration
+			print("---------------------------")
+			print("** Tout s'est bien passé **")
+			print("---------------------------")
+			sys.exit(0)
 	else:
 
 		# Création d'une boucle while en cas d'erreur ou demande de sortie d programme
@@ -182,7 +215,7 @@ elif args.restauration:
 					continue
 			else:
 
-	# On affiche un message indiquant la fin de la restauration
+				# On affiche un message indiquant la fin de la restauration
 				print("-------------------------------------------------------------------")
 				print(f"** Restauration de '{fichier}' effectuée avec succès dans {path} **")
 				print("-------------------------------------------------------------------")
@@ -222,6 +255,8 @@ elif args.affichage:
 else:
 
 	print("----------------------------------------------------------------------------------")
-	print("-- Veuillez entrer une option -s(sauvegarde) , -r(restauration) , -a(affichage) --")
+	print("-- Veuillez entrer une option : -s(sauvegarde) , -r(restauration) , -a(affichage)")
+	print(", -b(bucket) , -c(chemin) , -b(bucket)")
+	print("Exemple de sauvegarde en indiquant le fichier contenant la liste des fichiers à traiter :")
+	print("./script_sauvegarde.py -s -f /chemin/vers/lefichier/ -b nom_du_bucket")
 	print("----------------------------------------------------------------------------------")
-
