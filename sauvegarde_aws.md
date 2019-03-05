@@ -228,7 +228,7 @@ elif args.restauration:
 	print("----------------------------------------------")
 	print(f"Temps de téléchargement: {fin-début} secondes")
 	print("----------------------------------------------")
-
+	sys.exit(0)
 # affichage()-------------------------------------------------------------------------------------
 elif args.affichage:
 	#On cré une boucle while afin de confirmé le nom du bucket auquel nous voulons affichier le contenu
@@ -251,6 +251,7 @@ elif args.affichage:
 		else:
 			break
 
+	sys.exit(0)
 # On demande à l'utilisateur de choisir une option si celui ci n'entre aucun paramètre
 else:
 
