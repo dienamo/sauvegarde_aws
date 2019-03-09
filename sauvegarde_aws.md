@@ -25,9 +25,9 @@ parser = ArgumentParser()
 # On ajoute les informations relatives à l'appel de l'analyseur de paramètres (commande d'appel,
 # type etc..)
 # On ajoute la valeur par defaut dans argparse qui represente le chemin du fichier au cas ou le paramatre -f n'est pas renseigné
-parser.add_argument("-f","--chemin",action="store",default='/home/adminsys/fichier_aws.txt')
+parser.add_argument("-f","--chemin")
 parser.add_argument("-b","--bucket",help="nom du bucket")
-parser.add_argument("-c","--path",help="chemin de location restauration")
+parser.add_argument("-c","--path")
 parser.add_argument("-s","--sauvegarde",action="store_true",help="appel du module de sauvegarde")
 parser.add_argument("-r","--restauration",action="store_true",help="appel du module de restauration")
 parser.add_argument("-a","--affichage",action="store_true",help="appel du module d'affichage du contenu du bucket")
@@ -40,11 +40,13 @@ mon_bucket = args.bucket
 # On affecte la variable path afin d'entrer en paramètre le chemin avec le parser
 path = args.path
 
+path = str(path)
+
 s3 = boto3.resource('s3')
 
 conn = boto3.client('s3')
 
-fichier_liste = args.chemin
+liste_defaut = '/home/adminsys/fichier_aws.txt'
 
 # On affecte la variable erreur afin de l'incrémenter dans la boucle "for"
 erreur = 0
@@ -57,13 +59,14 @@ if args.sauvegarde:
 	début = time.time()
 
 	if args.chemin:
+
 		# On verifie l'existance du fichier contenant la liste des fichiers
 		try:
-			assert os.path.exists(f'{fichier_liste}')
+			assert os.path.exists(f'{args.chemin}')
 		except AssertionError:
 			print('fichier contenant la liste introuvable')
 			sys.exit(1)
-		f = open(os.path.join(f'{fichier_liste}')).read().splitlines()
+		f = open(os.path.join(f'{args.chemin}')).read().splitlines()
 
 		# Création d'un boucle for afin de créer una variable por chaque fichiers de la liste
 		for fichier in f:
