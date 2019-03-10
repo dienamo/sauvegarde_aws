@@ -1,69 +1,27 @@
-fichier guide-linux.pdf introuvable dans /home/adminsys/mes_fichiers: 2019-03-01 15:38:21.830303
-fichier fichier_test.txt introuvable dans /home/adminsys: 2019-03-01 15:38:22.149588
-fichier guide-linux.pdf sauvegardé dans monprojet6 2019-03-01 15:43:19.216834
-fichier fichier_test.txt sauvegardé dans monprojet6 2019-03-01 15:43:19.497042
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-04 15:51:45.552848
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-04 15:51:45.875848
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-04 18:35:36.516812
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-04 18:35:36.779655
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-04 19:02:18.228620
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-04 19:02:18.508957
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-04 19:20:33.982814
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-04 19:20:34.257924
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-04 20:10:32.656637
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-04 20:10:32.926865
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-04 20:34:06.037133
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-04 20:34:06.311623
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-04 20:50:00.443624
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-04 20:50:00.717040
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-04 20:55:00.316895
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-04 20:55:00.603307
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-04 22:09:11.393521
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-04 22:09:11.666732
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-04 22:42:04.680667
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-04 22:42:04.962702
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-04 22:53:32.028912
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-04 22:53:32.295902
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 17:18:24.493158
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 17:18:24.895740
-fichier 'contenu de mon fichier texte sauvegardé sur amazon s3' introuvable dans : 2019-03-05 17:32:39.524874
-fichier 'premiere modification' introuvable dans : 2019-03-05 17:32:39.528354
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 17:38:26.339843
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 17:38:26.623526
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 17:40:13.945818
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 17:40:14.274407
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 18:49:10.903632
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 18:49:11.188063
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 18:50:38.839842
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 18:50:39.117889
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 18:53:10.610161
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 18:53:10.876348
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 19:04:05.084058
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 19:04:05.363787
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 19:06:18.477802
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 19:06:18.744829
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 19:09:16.763180
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 19:09:17.042570
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 19:15:38.709422
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 19:22:00.451594
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 19:22:00.739644
-fichier 'guide-linux.pdf' introuvable dans /home/adminsys/mes_fichiers: 2019-03-05 19:23:21.812223
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 19:23:22.551747
-fichier 'guide-linux.pdf' introuvable dans /home/adminsys/mes_fichiers: 2019-03-05 19:29:48.750422
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 19:29:49.641614
-fichier 'guide-linux.pdf' introuvable dans /home/adminsys/mes_fichiers: 2019-03-05 19:33:07.411527
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 19:33:08.201384
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 19:45:58.041597
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 19:45:58.459219
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-05 19:54:33.170223
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-05 19:54:33.545790
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-09 10:21:14.116068
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-09 10:21:14.504069
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-09 10:25:29.959462
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-09 10:25:30.228049
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-09 12:06:57.582779
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-09 12:06:57.847466
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-09 12:11:10.405697
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-09 12:11:10.678314
-fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-09 15:22:43.149155
-fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-09 15:22:43.421794
+[ERROR] fichier 'guide-linux.pdf' introuvable dans /home/adminsys/mes_fichiers: 2019-03-10 16:19:37.243006
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 16:19:38.050502
+[SUCCESS] fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-10 16:27:04.168280
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 16:27:04.467109
+[SUCCESS] fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-10 16:30:36.285098
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 16:30:36.583700
+[SUCCESS] fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-10 16:43:06.782926
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 16:43:07.060225
+[ERROR] fichier 'guide-linux.pdf' introuvable dans /home/adminsys/mes_fichiers: 2019-03-10 16:44:30.857463
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 16:44:31.561307
+[ERROR] fichier 'guide-linux.pdf' introuvable dans /home/adminsys/mes_fichiers: 2019-03-10 16:49:42.838127
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 16:49:43.559160
+[SUCCESS] fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-10 16:51:50.143542
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 16:51:50.412556
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 16:53:09.039146
+[SUCCESS] fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-10 17:08:27.445608
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 17:08:27.747194
+[SUCCESS] fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-10 17:21:48.091400
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 17:21:48.430635
+[SUCCESS] fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-10 17:30:47.311957
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 17:30:47.705430
+[SUCCESS] fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-10 17:36:09.375810
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 17:36:09.939678
+[SUCCESS] fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-10 17:45:03.728330
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 17:45:04.109553
+[SUCCESS] fichier 'guide-linux.pdf' sauvegardé dans monprojet6 2019-03-10 17:49:14.413501
+[SUCCESS] fichier 'fichier_test.txt' sauvegardé dans monprojet6 2019-03-10 17:49:14.781543

@@ -25,12 +25,13 @@ parser = ArgumentParser()
 # On ajoute les informations relatives à l'appel de l'analyseur de paramètres (commande d'appel,
 # type etc..)
 # On ajoute la valeur par defaut dans argparse qui represente le chemin du fichier au cas ou le paramatre -f n'est pas renseigné
-parser.add_argument("-f","--chemin")
+parser.add_argument("-f","--chemin",help = "chemin du fichier contenant la liste des fichiers")
 parser.add_argument("-b","--bucket",help="nom du bucket")
-parser.add_argument("-c","--path")
+parser.add_argument("-c","--path",help="chemin du fichier à sauvegarder/restaurer")
 parser.add_argument("-s","--sauvegarde",action="store_true",help="appel du module de sauvegarde")
 parser.add_argument("-r","--restauration",action="store_true",help="appel du module de restauration")
 parser.add_argument("-a","--affichage",action="store_true",help="appel du module d'affichage du contenu du bucket")
+
 # On déclare la variable args qui représente la methode parse_args utilisée par Argumentparser
 args = parser.parse_args()
 
@@ -42,200 +43,242 @@ path = args.path
 
 path = str(path)
 
+chemin = args.chemin
+
 s3 = boto3.resource('s3')
 
 conn = boto3.client('s3')
 
-liste_defaut = '/home/adminsys/fichier_aws.txt'
+# On affecte le chemin du fichier contenant la liste des fichiers par défaut
+liste_defaut="/home/adminsys/fichier_aws.txt"
 
-# On affecte la variable erreur afin de l'incrémenter dans la boucle "for"
-erreur = 0
-
-erreur = int(erreur)
 # sauvegarde():-----------------------------------------------------------------------------------------------------------------------
-if args.sauvegarde:
 
-	# On determine le moment du début de l'execution de la sauvegarde
+# On determine le moment du début de l'execution de la sauvegarde
+
+# On cré la fonction sauvegarde
+def sauvegardes(liste):
+
 	début = time.time()
 
-	if args.chemin:
+	# On affecte la variable erreur afin de l'incrémenter dans la boucle "for"
+	erreur = 0
+	erreur = int(erreur)
+	# On verifie l'existance du fichier contenant la liste des fichiers
+	try:
+		assert os.path.exists(f'{liste}')
+	except AssertionError:
+		print('fichier contenant la liste introuvable')
+		sys.exit(1)
 
-		# On verifie l'existance du fichier contenant la liste des fichiers
-		try:
-			assert os.path.exists(f'{args.chemin}')
-		except AssertionError:
-			print('fichier contenant la liste introuvable')
-			sys.exit(1)
-		f = open(os.path.join(f'{args.chemin}')).read().splitlines()
+	# Lecture ligne par ligne du fichier liste
+	with open(os.path.join(f'{liste}')) as file:
+		f = file.read().splitlines()
 
-		# Création d'un boucle for afin de créer una variable por chaque fichiers de la liste
-		for fichier in f:
+	# On ouvre le fichier de log
+	l = open("logs_sauvegarde.txt","a")
 
-			# Methode de chargement dans le bucket combiné de conditions afin de véerifier la présence des fichiers en local 
-			if os.path.exists(fichier):
+	# Création d'un boucle for afin de créer una variable por chaque fichiers de la liste
+	for fichier in f:
 
-				s3.Bucket(mon_bucket).\
-				upload_file(Filename = f'{fichier}',Key =os.path.basename(fichier))
+		# Methode de chargement dans le bucket combiné de conditions afin de véerifier la présence des fichiers en local 
+		if os.path.exists(fichier):
 
-				# On inscrit la sauvegarde dans un fichier de log
-				f = open("logs_sauvegarde.txt","a")
-				f.write(f"fichier '{os.path.basename(fichier)}' sauvegardé dans {mon_bucket} {datetime.now()}\n")
-				f.close()
+			s3.Bucket(mon_bucket).\
+			upload_file(Filename = f'{fichier}',Key =os.path.basename(fichier))
 
-			else:
-				# On incremente les erreurs dans la variable erreur
-				erreur += 1
+			# On inscrit la sauvegarde dans un fichier de log
+			l.write(f"[SUCCESS] fichier '{os.path.basename(fichier)}' sauvegardé dans {mon_bucket} {datetime.now()}\n")
 
-
-				# Création d'un fichier de log afin d'enregistrer les erreurs
-				f = open("logs_sauvegarde.txt","a")
-				f.write(f"fichier '{os.path.basename(fichier)}' introuvable dans {os.path.dirname(fichier)}: {datetime.now()}\n")
-				f.close()
-
-		# On affiche un message indiquant la fin de la sauvegarde et le code erreur
-
-		if erreur >=1:
-			print("----------------------------------")
-			print("** erreur lors de la sauvegarde **")
-			print("----------------------------------")
-			sys.exit(1)
 		else:
-			print("---------------------------")
-			print("** Tout s'est bien passé **")
-			print("---------------------------")
-			sys.exit(0)
+			# On incremente les erreurs dans la variable erreur
+			erreur += 1
+
+			# Création d'un fichier de log afin d'enregistrer les erreurs
+			l.write(f"[ERROR] fichier '{os.path.basename(fichier)}' introuvable dans {os.path.dirname(fichier)}: {datetime.now()}\n")
+
+	l.close()
+
+	#On affiche un message indiquant le temps de la sauvegarde
+	fin = time.time()
+
+	print("------------------------------------------")
+	print(f"Temps de traitement: {fin-début} secondes")
+
+	# On affiche un message indiquant la fin de la sauvegarde et le code erreur
+	if erreur >= 1:
+		print("----------------------------------")
+		print("** Erreur lors de la sauvegarde **")
+		print("----------------------------------")
+		sys.exit(1)
+	else:
+
+		print("---------------------------")
+		print("** Tout s'est bien passé **")
+		print("---------------------------")
+		sys.exit(0)
+
+
+def sauvegarde_manuelle():
 
 	#On cré une boucle while afin de demander à l'utilisateur d'enter un nom de fichier ou quitter le programme
-	else:
-		while True:
+	while True:
 
-			fichier = input("Quel fichier voulez vous sauvegarder? ('q' pour quitter): ")
+		fichier = input("Quel fichier voulez vous sauvegarder? ('q' pour quitter): ")
 
 			# Création d'un bloc try afin de sortir du programme en tapant 'q'
-			try:
-				assert fichier != 'q'
+		try:
+			assert fichier != 'q'
 
-			except AssertionError:
+		except AssertionError:
 
-				sys.exit(0)
+			sys.exit(0)
+
+		début = time.time()
 
 			# Methode de chargement dans le bucket combiné de conditions afin de véerifier la présence des fichiers en local 
-			if os.path.exists(f'{path}{fichier}'):
-				s3.Bucket(mon_bucket).upload_file(Filename = f'{path}{fichier}',Key = fichier)
+		if os.path.exists(f'{path}{fichier}'):
+			s3.Bucket(mon_bucket).upload_file(Filename = f'{path}{fichier}',Key = fichier)
 
 				# On affiche un message indiquant la fin de la sauvegarde
-				print("---------------------------------------------------------------")
-				print(f"** Sauvegarde de '{fichier}' effectuée avec succès dans {mon_bucket} **")
-				print("---------------------------------------------------------------")
-				break
+			print("---------------------------------------------------------------")
+			print(f"** Sauvegarde de '{fichier}' effectuée avec succès dans {mon_bucket} **")
+			print("---------------------------------------------------------------")
+			break
 
-			else:
-
-				# On affiche un message indiquant le fichier en erreur
-				print(f"fichier '{os.path.basename(fichier)}' introuvable dans {path}")
-				continue
-	fin = time.time()
-
-	#On affiche un message indiquant le temps de la sauvegarde
-	print("----------------------------------------------")
-	print(f"Temps de chargement: {fin-début} secondes")
-	print("----------------------------------------------")
-	sys.exit(0)
-# restauration():-----------------------------------------------------------------------------------------------------------------------
-elif args.restauration:
-
-	début = time.time()
-
-	if args.chemin:
-
-		try:
-			assert os.path.exists(fichier_liste)
-		except AssertionError:
-			print('fichier contenant la liste introuvable')
-			sys.exit(1)
-		f = open(os.path.join(f'{fichier_liste}')).read().splitlines()
-
-		# Création d'un boucle for afin de créer una variable por chaque fichiers de la liste
-		for fichier in f:
-
-			chemin = os.path.dirname(fichier)
-			nom_du_fichier = os.path.basename(fichier)
-
-			# Methode de téléchargement combiné d'un bloc try afin d'afficher une erreur si le fichier n'existe pas dans le bucket 
-			try:
-				s3.Object(mon_bucket,nom_du_fichier)\
-				.download_file(f'{chemin}/{nom_du_fichier}')
-
-				f=open("logs_restauration.txt","a")
-				f.write(f"fichier '{nom_du_fichier}' restauré dans {chemin} {datetime.now()}\n")
-				f.close()
-			except botocore.exceptions.ClientError as e:
-				if e.response['Error']['Code'] == "404":
-
-					# On affiche un message indiquant le fichier en erreur
-					erreur += 1
-					# Création d'un fichier de log afin d'enregistrer les erreurs
-					f=open("logs_restauration.txt","a")
-					f.write(f"fichier '{nom_du_fichier}' non existant dans le bucket {mon_bucket}: {datetime.now()}\n")
-					f.close()
-		if erreur >= 1:
-			print("----------------------------------")
-			print("** erreur lors de la sauvegarde **")
-			print("----------------------------------")
-			sys.exit(1)
 		else:
 
-		# On affiche un message indiquant la fin de la restauration
-			print("---------------------------")
-			print("** Tout s'est bien passé **")
-			print("---------------------------")
-			sys.exit(0)
-	else:
+			# On affiche un message indiquant le fichier en erreur
+			print(f"[ERROR] fichier '{os.path.basename(fichier)}' introuvable dans {path}")
+			continue
 
-		# Création d'une boucle while en cas d'erreur ou demande de sortie d programme
-		while True:
-
-			fichier = input("Quel fichier voulez vous restaurer? ('q' pour quitter): ")
-
-			# Création d'un bloc try afin de sortir du programme en tapant 'q'
-			try:
-
-				assert fichier != 'q'
-
-			except AssertionError:
-
-				sys.exit()
-
-			# Methode de téléchargement combiné d'un bloc try afin d'afficher un erreur si le fichier n'existe pas dans le bucket 
-			try:
-
-				s3.Object(mon_bucket,fichier).download_file(f'{path}{fichier}')
-			except botocore.exceptions.ClientError as e:
-				if e.response['Error']['Code'] == "404":
-
-					# On affiche un message indiquant le fichier en erreur
-					print(f'Fichier {fichier} non existant dans le bucket')
-					continue
-			else:
-
-				# On affiche un message indiquant la fin de la restauration
-				print("-------------------------------------------------------------------")
-				print(f"** Restauration de '{fichier}' effectuée avec succès dans {path} **")
-				print("-------------------------------------------------------------------")
-				break
-
-	# On determine la fin de la restauration
 	fin = time.time()
 
 	#On affiche un message indiquant le temps de la sauvegarde
-	print("----------------------------------------------")
-	print(f"Temps de téléchargement: {fin-début} secondes")
-	print("----------------------------------------------")
+	print(f"Temps de traitement: {fin-début} secondes")
+	print("------------------------------------------")
+
 	sys.exit(0)
-# affichage()-------------------------------------------------------------------------------------
-elif args.affichage:
+
+
+
+# restauration():-----------------------------------------------------------------------------------------------------------------------
+
+def restaurations(liste):
+
+	début = time.time()
+	# On affecte la variable erreur afin de l'incrémenter dans la boucle "for"
+	erreur = 0
+	erreur = int(erreur)
+
+	# On verifie l'existance du fichier contenant la liste des fichiers
+	try:
+		assert os.path.exists(liste)
+	except AssertionError:
+		print('fichier contenant la liste introuvable')
+		sys.exit(1)
+
+	# Lecture ligne par ligne du fichier liste
+	with open(os.path.join(f'{liste}')) as file:
+		f = file.read().splitlines()
+
+	# On ouvre le fichier de log
+	l = open("logs_restauration.txt","a")
+
+	# Création d'un boucle for afin de créer una variable por chaque fichiers de la liste
+	for fichier in f:
+
+		chemin = os.path.dirname(fichier)
+		nom_du_fichier = os.path.basename(fichier)
+
+		# Methode de téléchargement combiné d'un bloc try afin d'afficher une erreur si le fichier n'existe pas dans le bucket 
+		try:
+			s3.Object(mon_bucket,nom_du_fichier)\
+			.download_file(f'{chemin}/{nom_du_fichier}')
+
+			l.write(f"[SUCCES] fichier '{nom_du_fichier}' restauré dans {chemin} {datetime.now()}\n")
+
+		except botocore.exceptions.ClientError as e:
+			if e.response['Error']['Code'] == "404":
+
+				# On affiche un message indiquant le fichier en erreur
+				erreur += 1
+				# Création d'un fichier de log afin d'enregistrer les erreurs
+
+				l.write(f"[ERROR] fichier '{nom_du_fichier}' non existant dans le bucket {mon_bucket}: {datetime.now()}\n")
+	l.close()
+	fin = time.time()
+
+	print("------------------------------------------")
+	print(f"Temps de traitement: {fin-début} secondes")
+
+
+	# On affiche un message indiquant la fin de la restauration et le code erreur
+	if erreur >= 1:
+		print("------------------------------------")
+		print("** erreur lors de la restauration **")
+		print("------------------------------------")
+		sys.exit(1)
+
+
+	# On affiche un message indiquant la fin de la restauration
+	else:
+		print("---------------------------")
+		print("** Tout s'est bien passé **")
+		print("---------------------------")
+		sys.exit(0)
+
+
+def restauration_manuelle():
+
+	# Création d'une boucle while en cas d'erreur ou demande de sortie d programme
+	while True:
+
+		fichier = input("Quel fichier voulez vous restaurer? ('q' pour quitter): ")
+
+		# Création d'un bloc try afin de sortir du programme en tapant 'q'
+		try:
+
+			assert fichier != 'q'
+
+		except AssertionError:
+
+			sys.exit(0)
+
+		début = time.time()
+
+		# Methode de téléchargement combiné d'un bloc try afin d'afficher un erreur si le fichier n'existe pas dans le bucket 
+		try:
+
+			s3.Object(mon_bucket,fichier).download_file(f'{path}{fichier}')
+		except botocore.exceptions.ClientError as e:
+			if e.response['Error']['Code'] == "404":
+
+				# On affiche un message indiquant le fichier en erreur
+				print(f'[ERROR] fichier {fichier} non existant dans le bucket')
+				continue
+		else:
+
+			# On affiche un message indiquant la fin de la restauration
+			print("-------------------------------------------------------------------")
+			print(f"** Restauration de '{fichier}' effectuée avec succès dans {path} **")
+			print("-------------------------------------------------------------------")
+			break
+
+	#On affiche un message indiquant le temps de la sauvegarde
+	fin = time.time()
+	print(f"Temps de traitement: {fin-début} secondes")
+	print("------------------------------------------")
+
+	sys.exit(0)
+
+# affichage()--------------------------------------------------------------------------------------
+
+def affichages():
+
 	#On cré une boucle while afin de confirmé le nom du bucket auquel nous voulons affichier le contenu
 	while True:
+
 		#Capture de la reponse de l'utilisateur combiné d'un bloc try afin de s'assurer de la réponse
 		contenu = input(f'Voulez vous afficher le contenu du bucket \"{mon_bucket}\" ? (o ou n) : ')
 
@@ -246,6 +289,7 @@ elif args.affichage:
 		except AssertionError:
 			print("Veuillez entrer o ou n : ")
 			continue
+
 		#Méthode d'affichage du bucket si la reponse est "o"
 		if contenu == 'o':
 			for key in conn.list_objects(Bucket = mon_bucket)['Contents']:
@@ -254,8 +298,37 @@ elif args.affichage:
 		else:
 			break
 
+
 	sys.exit(0)
-# On demande à l'utilisateur de choisir une option si celui ci n'entre aucun paramètre
+
+# Execution globale()-------------------------------------------------------------------------------
+
+if args.sauvegarde:
+
+	if args.path:
+		sauvegarde_manuelle()
+	elif args.chemin:
+		liste = args.chemin
+		sauvegardes(liste)
+	else:
+		liste = liste_defaut
+		sauvegardes(liste)
+
+elif args.restauration:
+
+	if args.path:
+		restauration_manuelle()
+	elif args.chemin:
+		liste = args.chemin
+		restaurations(liste)
+	else:
+		liste = liste_defaut
+		restaurations(liste)
+
+elif args.affichage:
+
+	affichages()
+
 else:
 
 	print("----------------------------------------------------------------------------------")

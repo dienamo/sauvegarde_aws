@@ -22,3 +22,18 @@ fichier 'guide-linux.pdf' restauré dans /home/adminsys/mes_fichiers 2019-03-05 
 fichier 'fichier_test.txt' restauré dans /home/adminsys 2019-03-05 19:50:11.464670
 fichier 'guide-linux.pdf' restauré dans /home/adminsys/mes_fichiers 2019-03-05 19:51:08.144928
 fichier 'fichier_test.txt' restauré dans /home/adminsys 2019-03-05 19:51:08.533792
+[SUCCES] fichier 'guide-linux.pdf' restauré dans /home/adminsys/mes_fichiers 2019-03-10 16:21:54.013177
+[SUCCES] fichier 'guide-linux.pdf' restauré dans /home/adminsys/mes_fichiers 2019-03-10 16:22:41.553202
+[SUCCES] fichier 'guide-linux.pdf' restauré dans /home/adminsys/mes_fichiers 2019-03-10 16:25:24.540319
+[SUCCES] fichier 'fichier_test.txt' restauré dans /home/adminsys 2019-03-10 16:25:24.854313
+[SUCCES] fichier 'guide-linux.pdf' restauré dans /home/adminsys/mes_fichiers 2019-03-10 16:50:26.811745
+[SUCCES] fichier 'fichier_test.txt' restauré dans /home/adminsys 2019-03-10 16:50:27.108366
+[SUCCES] fichier 'guide-linux.pdf' restauré dans /home/adminsys/mes_fichiers 2019-03-10 16:52:29.424510
+[SUCCES] fichier 'fichier_test.txt' restauré dans /home/adminsys 2019-03-10 16:52:29.742739
+[SUCCES] fichier 'guide-linux.pdf' restauré dans /home/adminsys/mes_fichiers 2019-03-10 16:54:53.564119
+[SUCCES] fichier 'fichier_test.txt' restauré dans /home/adminsys 2019-03-10 16:54:53.860258
+[ERROR] fichier 'guide-linux.pdf' non existant dans le bucket monprojet6: 2019-03-10 16:55:45.047381
+[SUCCES] fichier 'fichier_test.txt' restauré dans /home/adminsys 2019-03-10 16:55:45.333602
+[ERROR] fichier 'guide-linux.pdf' non existant dans le bucket monprojet6: 2019-03-10 16:56:57.213900
+[SUCCES] fichier 'fichier_test.txt' restauré dans /home/adminsys 2019-03-10 16:56:57.504224
+[SUCCES] fichier 'fichier_test.txt' restauré dans /home/adminsys 2019-03-10 16:57:20.947627
